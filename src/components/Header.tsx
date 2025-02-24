@@ -3,16 +3,12 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useSession } from "next-auth/react";
+import LogoutModal from "./LogoutModal"; // Importa o modal
 
 export default function Header() {
+  const { data: session } = useSession(); // Obtém a sessão do usuário
   const pathname = usePathname();
-
-  const handleLogout = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (window.confirm("Tem certeza que deseja sair?")) {
-      window.location.href = "/logout";
-    }
-  };
 
   return (
     <header className="bg-transparent shadow text-white py-3">
@@ -32,28 +28,22 @@ export default function Header() {
           <h1 className="text-4xl font-bold uppercase">Força Aérea Brasileira</h1>
         </div>
 
-        {/* Botões */}
-        <div className="w-full md:w-1/6 flex justify-center md:justify-end mt-3 md:mt-0">
-          <div className="flex gap-3">
-            {/* Simulação de autenticação */}
-            {true ? (
-              <>
-                <Link
-                  href={pathname === "/" ? "/list" : "/"}
-                  className="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-md text-white"
-                >
-                  {pathname === "/" ? "Lista de URLs" : "Encurtar URL"}
-                </Link>
+        {/* Botões (somente se o usuário estiver logado) */}
+        {session && (
+          <div className="w-full md:w-1/6 flex justify-center md:justify-end mt-3 md:mt-0">
+            <div className="flex gap-3">
+              <Link
+                href={pathname === "/" ? "/list" : "/"}
+                className="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-md text-white"
+              >
+                {pathname === "/" ? "URLs" : "Encurtar URL"}
+              </Link>
 
-                <form onSubmit={handleLogout}>
-                  <button type="submit" className="bg-red-600 hover:bg-red-700 px-4 py-2 rounded-md text-white">
-                    Sair
-                  </button>
-                </form>
-              </>
-            ) : null}
+              {/* Modal de Logout */}
+              <LogoutModal />
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </header>
   );

@@ -1,4 +1,3 @@
--- CreateTable
 CREATE TABLE "URL" (
     "id" TEXT NOT NULL,
     "original" TEXT NOT NULL,
@@ -8,5 +7,4 @@ CREATE TABLE "URL" (
     CONSTRAINT "URL_pkey" PRIMARY KEY ("id")
 );
 
--- CreateIndex
 CREATE UNIQUE INDEX "URL_short_key" ON "URL"("short");

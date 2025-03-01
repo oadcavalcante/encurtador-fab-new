@@ -8,12 +8,27 @@ datasource db {
 }
 
 model User {
-  id       String  @id @default(uuid())
-  name     String  
-  email    String  @unique
-  password String
-  urls     URL[]
-  createdAt DateTime @default(now())
+  id         String   @id @default(uuid())
+  
+  // Informações básicas
+  fullname   String?  // Nome completo (cn)
+  name       String?  // Nome de guerra (FABguerra)
+  email      String?  @unique // Email institucional (FABmail)
+  password   String?  // Senha (caso necessário)
+
+  // Identificações
+  cpf        String?  @unique // CPF (uid)
+  saram      String?  @unique // Número de ordem (FABnrordem)
+
+  // Informações militares
+  postoGrad  String?  // Posto/Graduação (FABpostograd)
+  om         String?  // Organização Militar (FABom)
+
+  // Relacionamentos
+  urls       URL[]
+
+  // Metadados
+  createdAt  DateTime @default(now())
 }
 
 model URL {

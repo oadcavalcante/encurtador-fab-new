@@ -6,25 +6,24 @@ import { signOut } from "next-auth/react";
 
 export default function LogoutModal() {
   const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
   const handleLogout = async () => {
+    if (loading) return;
+    setLoading(true);
     await signOut({ callbackUrl: "/login" });
+    setLoading(false);
   };
 
   return (
     <>
       <Button
         variant="contained"
-        sx={{
-          backgroundColor: "#d32f2f",
-          "&:hover": { backgroundColor: "#b71c1c" },
-          borderRadius: "8px",
-          fontWeight: "bold",
-          padding: "8px 16px",
-        }}
+        color="error"
+        sx={{ borderRadius: 2, fontWeight: "bold", px: 3, py: 1 }}
         onClick={handleOpen}
       >
         Sair
@@ -38,7 +37,7 @@ export default function LogoutModal() {
             left: "50%",
             transform: "translate(-50%, -50%)",
             width: 320,
-            bgcolor: "#1e293b",
+            bgcolor: "#1E3A8A",
             color: "white",
             boxShadow: 24,
             p: 4,
@@ -46,32 +45,27 @@ export default function LogoutModal() {
             textAlign: "center",
           }}
         >
-          <Typography id="logout-modal" variant="h6" component="h2" fontWeight="bold">
+          <Typography id="logout-modal" variant="h6" fontWeight="bold">
             Deseja realmente sair?
           </Typography>
 
           <Box display="flex" justifyContent="center" gap={2} mt={3}>
             <Button
               variant="contained"
-              sx={{
-                backgroundColor: "#475569",
-                "&:hover": { backgroundColor: "#334155" },
-                borderRadius: "8px",
-              }}
+              sx={{ bgcolor: "#475569", "&:hover": { bgcolor: "#334155" }, borderRadius: 2 }}
               onClick={handleClose}
+              disabled={loading}
             >
               Cancelar
             </Button>
             <Button
               variant="contained"
-              sx={{
-                backgroundColor: "#d32f2f",
-                "&:hover": { backgroundColor: "#b71c1c" },
-                borderRadius: "8px",
-              }}
+              color="error"
+              sx={{ borderRadius: 2 }}
               onClick={handleLogout}
+              disabled={loading}
             >
-              Sair
+              {loading ? "Saindo..." : "Sair"}
             </Button>
           </Box>
         </Box>

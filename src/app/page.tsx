@@ -109,7 +109,7 @@ export default function Home() {
             content:
               "1. Insira a URL Original. 2. Escolha um slug opcional. 3. Clique em 'Gerar link'. 4. Copie e compartilhe.",
           },
-          { title: "Pra que serve?", content: "Reduz links longos para facilitar compartilhamento." },
+          { title: "Pra que serve?", content: "Reduz links longos para facilitar o compartilhamento." },
           { title: "Por que usar?", content: "Fácil, intuitivo e amigável para compartilhar." },
         ].map((item, index) => (
           <Accordion key={index} className="w-full">

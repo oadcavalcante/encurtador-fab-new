@@ -1,11 +1,18 @@
 import { NextResponse } from "next/server";
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
+import { prisma } from "@/lib/prisma";
+import { getServerSession } from "next-auth";
+import { authOptions } from "../auth/[...nextauth]/route";
 
 export async function GET() {
     try {
-        const urls = await prisma.uRL.findMany();
+        const session = await getServerSession(authOptions);
+        if (!session?.user?.id) {
+            return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
+        }
+
+        const urls = await prisma.uRL.findMany({
+            where: { userId: session.user.id },
+        });
 
         const formattedUrls = urls.map((url) => ({
             ...url,

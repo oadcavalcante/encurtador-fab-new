@@ -35,7 +35,7 @@ export default function ListPage() {
         const data = await response.json();
 
         // 🔥 Converte `createdAt` antes de passar para a tabela
-        const formattedData = data.map((item) => ({
+        const formattedData = data.map((item: { createdAt: string | number | Date }) => ({
           ...item,
           createdAt: new Date(item.createdAt), // Converte string para Date
         }));
@@ -54,10 +54,10 @@ export default function ListPage() {
       <Header />
       <Box
         sx={{
-          height: 600,
+          height: "80vh",
           width: "100%",
           margin: "20px auto",
-          backgroundColor: "#ffffffd9",
+          backgroundColor: "#ffffff96",
           padding: "20px",
         }}
       >

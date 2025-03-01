@@ -16,7 +16,17 @@ export default function LogoutModal() {
 
   return (
     <>
-      <Button variant="contained" color="error" onClick={handleOpen}>
+      <Button
+        variant="contained"
+        sx={{
+          backgroundColor: "#d32f2f",
+          "&:hover": { backgroundColor: "#b71c1c" },
+          borderRadius: "8px",
+          fontWeight: "bold",
+          padding: "8px 16px",
+        }}
+        onClick={handleOpen}
+      >
         Sair
       </Button>
 
@@ -27,22 +37,40 @@ export default function LogoutModal() {
             top: "50%",
             left: "50%",
             transform: "translate(-50%, -50%)",
-            width: 300,
-            bgcolor: "background.paper",
+            width: 320,
+            bgcolor: "#1e293b",
+            color: "white",
             boxShadow: 24,
             p: 4,
             borderRadius: 2,
+            textAlign: "center",
           }}
         >
-          <Typography id="logout-modal" variant="h6" component="h2">
-            Tem certeza que deseja sair?
+          <Typography id="logout-modal" variant="h6" component="h2" fontWeight="bold">
+            Deseja realmente sair?
           </Typography>
 
-          <Box display="flex" justifyContent="space-between" mt={2}>
-            <Button variant="contained" onClick={handleClose}>
+          <Box display="flex" justifyContent="center" gap={2} mt={3}>
+            <Button
+              variant="contained"
+              sx={{
+                backgroundColor: "#475569",
+                "&:hover": { backgroundColor: "#334155" },
+                borderRadius: "8px",
+              }}
+              onClick={handleClose}
+            >
               Cancelar
             </Button>
-            <Button variant="contained" color="error" onClick={handleLogout}>
+            <Button
+              variant="contained"
+              sx={{
+                backgroundColor: "#d32f2f",
+                "&:hover": { backgroundColor: "#b71c1c" },
+                borderRadius: "8px",
+              }}
+              onClick={handleLogout}
+            >
               Sair
             </Button>
           </Box>

@@ -1,11 +1,7 @@
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { compare } from "bcryptjs";
-
-//password -> 123456
-const users = [
-    { id: "1", name: "cavalcanteacon", email: "cavalcanteacon@fab.mil.br", password: "$2b$10$2NbczA69mTRd5ATxSt0GoOZ6faIOPX0TJ1b3AfBcBBxcm2guTFbRK" }
-];
+import { prisma } from "@/lib/prisma"; // Importa o Prisma
 
 export const authOptions = {
     providers: [
@@ -13,21 +9,46 @@ export const authOptions = {
             name: "Credentials",
             credentials: {
                 email: { label: "Email", type: "email", placeholder: "seu@email.com" },
-                password: { label: "Senha", type: "password" }
+                password: { label: "Senha", type: "password" },
             },
             async authorize(credentials) {
-                const user = users.find(u => u.email === credentials?.email);
-                if (!user || !(await compare(credentials!.password, user.password))) {
+                if (!credentials?.email || !credentials?.password) {
                     throw new Error("Credenciais inválidas!");
                 }
+
+                // Busca o usuário no banco
+                const user = await prisma.user.findUnique({
+                    where: { email: credentials.email },
+                });
+
+                if (!user || !(await compare(credentials.password, user.password))) {
+                    throw new Error("Credenciais inválidas!");
+                }
+
                 return { id: user.id, name: user.name, email: user.email };
-            }
-        })
+            },
+        }),
     ],
     pages: {
-        signIn: "/login"
+        signIn: "/login",
     },
     secret: process.env.NEXTAUTH_SECRET,
+    callbacks: {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        async session({ session, token }: { session: any, token: any }) {
+            if (session.user) {
+                session.user.id = token.sub;
+            }
+            return session;
+        },
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        async jwt({ token, user }: { token: any, user?: any }) {
+            if (user) {
+                token.id = user.id;
+            }
+            return token;
+        },
+    },
 };
 
 const handler = NextAuth(authOptions);

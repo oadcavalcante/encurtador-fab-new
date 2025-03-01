@@ -39,7 +39,8 @@ export default function LoginPage() {
         <p className="text-xl mt-4 text-gray-300">Sistema de Encurtamento de URLs</p>
       </div>
       <div className="w-1/4 bg-gray-800 p-10 flex flex-col justify-center">
-        <h2 className="text-4xl font-semibold text-white mb-6 text-center">Acesse sua conta</h2>
+        <h2 className="text-4xl font-semibold text-white mb-4 text-center">Acesse sua conta</h2>
+        <h2 className="text-2xl font-semibold text-white mb-4 text-center">Login único</h2>
         <form onSubmit={handleLogin} className="flex flex-col gap-4">
           <input
             type="email"

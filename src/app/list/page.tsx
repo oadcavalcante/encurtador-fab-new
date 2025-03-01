@@ -31,13 +31,11 @@ export default function ListPage() {
   React.useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("/api/urls"); // 🔥 Ajuste para pegar os dados do Prisma
+        const response = await fetch("/api/urls"); 
         const data = await response.json();
-
-        // 🔥 Converte `createdAt` antes de passar para a tabela
         const formattedData = data.map((item: { createdAt: string | number | Date }) => ({
           ...item,
-          createdAt: new Date(item.createdAt), // Converte string para Date
+          createdAt: new Date(item.createdAt), 
         }));
 
         setRows(formattedData);
@@ -57,7 +55,7 @@ export default function ListPage() {
           height: "80vh",
           width: "100%",
           margin: "20px auto",
-          backgroundColor: "#ffffff96",
+          backgroundColor: "rgba(241, 241, 241, 0.842)",
           padding: "20px",
         }}
       >

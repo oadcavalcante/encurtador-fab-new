@@ -68,16 +68,17 @@ export default function LoginPage() {
         <h2 className="text-2xl text-center text-gray-300">Centro de Computação da Aeronáutica de Brasília</h2>
         <p className="text-xl mt-2 text-gray-300">Sistema de Encurtamento de URLs</p>
       </div>
-      <div className="w-1/4 bg-gray-800 p-10 flex flex-col justify-center">
+      <div className="w-1/4 bg-gray-800 p-10 flex flex-col justify-center items-center">
+        <Image src="/images/gladio-cinza.png" alt="Logo Força Aérea" width={120} height={48} className="mb-4" />
         <h2 className="text-4xl font-semibold text-white mb-4 text-center">Acesse sua conta</h2>
         <h2 className="text-2xl font-semibold text-white mb-4 text-center">Login único</h2>
-        <form onSubmit={handleLogin} className="flex flex-col gap-4">
+        <form onSubmit={handleLogin} className="flex flex-col gap-4 w-full">
           <input
             type="text"
             placeholder="CPF (somente números)"
             value={cpf}
             onChange={(e) => setCpf(formatCpf(e.target.value))}
-            className="p-3 rounded-md bg-gray-700 text-white border border-gray-600 focus:outline-none focus:border-blue-500"
+            className="w-full p-4 rounded-md bg-gray-700 text-white border border-gray-600 focus:outline-none focus:border-blue-500"
             maxLength={14}
             required
           />
@@ -86,12 +87,12 @@ export default function LoginPage() {
             placeholder="Senha"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="p-3 rounded-md bg-gray-700 text-white border border-gray-600 focus:outline-none focus:border-blue-500"
+            className="w-full p-4 rounded-md bg-gray-700 text-white border border-gray-600 focus:outline-none focus:border-blue-500"
             required
           />
           <button
             type="submit"
-            className={`bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-md font-semibold transition duration-200 ${
+            className={`w-full bg-blue-600 hover:bg-blue-700 text-white p-4 rounded-md font-semibold transition duration-200 ${
               loading ? "opacity-50 cursor-not-allowed" : ""
             }`}
             disabled={loading}

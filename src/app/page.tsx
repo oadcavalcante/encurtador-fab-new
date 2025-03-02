@@ -149,10 +149,14 @@ export default function Home() {
               </span>
             </AccordionSummary>
             <AccordionDetails>
-              {index === 0 && "O encurtador de URLs transforma links longos em versões curtas."}
-              {index === 1 && "1. Insira a URL. 2. Escolha um slug opcional. 3. Clique em 'Gerar link'."}
-              {index === 2 && "Reduz o tamanho de links extensos, facilitando o compartilhamento."}
-              {index === 3 && "Ajuda na estética, economiza caracteres e pode fornecer estatísticas."}
+              {index === 0 &&
+                "O encurtador é uma ferramenta para reduzir URLs e gerar links curtos. Com ele, é possível criar um link encurtado fácil de compartilhar."}
+              {index === 1 &&
+                "1. Insira a URL. 2. Escolha um slug (opcional). 3. Clique em 'Gerar link'. 4. Copie e compartilhe."}
+              {index === 2 &&
+                "Em muitas situações, os endereços URL das páginas podem se tornar bastante longos e complicados. Isso pode representar um desafio ao compartilhar esses links, seja em sites, e-mails ou em outras formas de comunicação online. Para resolver essa questão, entra em cena o encurtador de URL. Essa ferramenta é projetada para simplificar endereços URL extensos, reduzindo-os a uma versão muito mais curta e fácil de compartilhar."}
+              {index === 3 &&
+                "Fácil e intuitivo. O domínio é fácil de memorizar e usar, tornando seus links encurtados mais amigáveis para compartilhar."}
             </AccordionDetails>
           </Accordion>
         ))}

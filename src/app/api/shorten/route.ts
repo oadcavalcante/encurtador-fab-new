@@ -3,7 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { z } from "zod";
 import { nanoid } from "nanoid";
 import { getServerSession } from "next-auth";
-import { authOptions } from "../auth/[...nextauth]/route";
+import { authOptions } from "@/lib/auth";
 
 const schema = z.object({
     original: z.string().url(),

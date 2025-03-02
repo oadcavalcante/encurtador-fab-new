@@ -1,8 +1,16 @@
 import { notFound, redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 
-export default async function RedirectPage({ params }: { params: { slug: string } }) {
-  const { slug } = params;
+type Params = {
+  slug: string;
+};
+
+type PageProps = {
+  params: Promise<Params>;
+};
+
+export default async function RedirectPage({ params }: PageProps) {
+  const { slug } = await params;
 
   if (!slug) {
     notFound();

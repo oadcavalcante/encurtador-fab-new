@@ -1,12 +1,10 @@
 {
   "compilerOptions": {
-    "target": "ES2017",
+    "target": "esnext",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
-    "skipLibCheck": true,
-    "strictNullChecks": false,
     "strict": false,
-    "noImplicitAny": false,
+    "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
     "esModuleInterop": true,

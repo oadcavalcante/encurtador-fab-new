@@ -57,28 +57,56 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex h-screen">
-      <div className="flex-1 bg-blue-900 flex flex-col justify-center items-center text-white p-10">
-        <div className="flex gap-8 mb-6 items-center">
-          <Image src="/images/logo-dti.png" alt="Logo DTI" width={64} height={64} />
-          <Image src="/images/gladio-cinza.png" alt="Logo Força Aérea" width={200} height={80} />
-          <Image src="/images/logo-ccabr.png" alt="Logo CCA-BR" width={64} height={64} />
+    <div className="flex flex-col md:flex-row h-screen">
+      <div className="flex-1 bg-blue-900 flex flex-col justify-center items-center text-white p-6 md:p-10">
+        <div className="flex flex-wrap gap-4 md:gap-8 mb-6 items-center justify-center">
+          <Image
+            src="/images/logo-dti.png"
+            alt="Logo DTI"
+            width={64}
+            height={64}
+            className="max-w-[50px] md:max-w-[64px]"
+          />
+          <Image
+            src="/images/gladio-cinza.png"
+            alt="Logo Força Aérea"
+            width={200}
+            height={80}
+            className="max-w-[120px] md:max-w-[200px] "
+          />
+          <Image
+            src="/images/logo-ccabr.png"
+            alt="Logo CCA-BR"
+            width={64}
+            height={64}
+            className="max-w-[50px] md:max-w-[64px]"
+          />
         </div>
-        <h1 className="text-5xl font-bold text-center">Força Aérea Brasileira</h1>
-        <h2 className="text-2xl text-center text-gray-300">Centro de Computação da Aeronáutica de Brasília</h2>
-        <p className="text-xl mt-2 text-gray-300">Sistema de Encurtamento de URLs</p>
+        <h1 className="text-3xl md:text-5xl font-bold text-center">Força Aérea Brasileira</h1>
+        <h2 className="text-lg md:text-2xl text-center text-gray-300">
+          Centro de Computação da Aeronáutica de Brasília
+        </h2>
+        <p className="text-md md:text-xl mt-2 text-gray-300 text-center">Sistema de Encurtamento de URLs</p>
       </div>
-      <div className="w-1/4 bg-gray-800 p-10 flex flex-col justify-center items-center">
-        <Image src="/images/gladio-cinza.png" alt="Logo Força Aérea" width={120} height={48} className="mb-4" />
-        <h2 className="text-4xl font-semibold text-white mb-4 text-center">Acesse sua conta</h2>
-        <h2 className="text-2xl font-semibold text-white mb-4 text-center">Login único</h2>
-        <form onSubmit={handleLogin} className="flex flex-col gap-4 w-full">
+
+      <div className="w-full md:w-1/3 bg-gray-800 p-6 md:p-10 flex flex-col justify-center items-center">
+        <Image
+          src="/images/gladio-cinza.png"
+          alt="Logo Força Aérea"
+          width={120}
+          height={48}
+          className="hidden md:block mb-4 max-w-[80px] md:max-w-[120px]"
+        />
+        <h2 className="text-2xl md:text-4xl font-semibold text-white mb-2 text-center">Acesse sua conta</h2>
+        <h2 className="text-lg md:text-2xl font-semibold text-white mb-4 text-center">Login único</h2>
+
+        <form onSubmit={handleLogin} className="flex flex-col gap-4 w-full max-w-sm">
           <input
             type="text"
             placeholder="CPF (somente números)"
             value={cpf}
             onChange={(e) => setCpf(formatCpf(e.target.value))}
-            className="w-full p-4 rounded-md bg-gray-700 text-white border border-gray-600 focus:outline-none focus:border-blue-500"
+            className="w-full p-3 md:p-4 rounded-md bg-gray-700 text-white border border-gray-600 focus:outline-none focus:border-blue-500"
             maxLength={14}
             required
           />
@@ -87,12 +115,12 @@ export default function LoginPage() {
             placeholder="Senha"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full p-4 rounded-md bg-gray-700 text-white border border-gray-600 focus:outline-none focus:border-blue-500"
+            className="w-full p-3 md:p-4 rounded-md bg-gray-700 text-white border border-gray-600 focus:outline-none focus:border-blue-500"
             required
           />
           <button
             type="submit"
-            className={`w-full bg-blue-600 hover:bg-blue-700 text-white p-4 rounded-md font-semibold transition duration-200 ${
+            className={`w-full bg-blue-600 hover:bg-blue-700 text-white p-3 md:p-4 rounded-md font-semibold transition duration-200 ${
               loading ? "opacity-50 cursor-not-allowed" : ""
             }`}
             disabled={loading}

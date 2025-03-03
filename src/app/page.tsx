@@ -25,7 +25,15 @@ export default function Home() {
 
   const normalizeUrl = (url: string) => {
     const sanitizedUrl = sanitizeInput(url);
-    return sanitizedUrl && !/^(https?:\/\/)/i.test(sanitizedUrl) ? `https://${sanitizedUrl}` : sanitizedUrl;
+
+    const cleanedUrl = sanitizedUrl.replace(/\s+/g, "");
+
+      const urlPattern = /^(https?:\/\/)?([\w.-]+)\.([a-z]{2,6})(\/\S*)?$/i;
+    if (!urlPattern.test(cleanedUrl)) {
+      return "";
+    }
+
+    return !/^(https?:\/\/)/i.test(cleanedUrl) ? `https://${cleanedUrl}` : cleanedUrl;
   };
 
   async function checkSlugExists(slug: string) {

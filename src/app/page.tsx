@@ -17,18 +17,24 @@ export default function Home() {
 
   const sanitizeInput = (input: string) => DOMPurify.sanitize(input.trim());
 
-  const sanitizeSlug = (slug: string) =>
-    slug
-      .replace(/[^a-zA-Z0-9-_]/g, "")
-      .slice(0, 5)
-      .trim();
+  const sanitizeSlug = (slug: string) => {
+    const sanitizedSlug = slug.replace(/[^a-zA-Z0-9-_]/g, "").trim();
+
+    if (sanitizedSlug.length < 3) {
+      setSlugError("O slug precisa ter pelo menos 3 caracteres.");
+    } else if (sanitizedSlug.length > 64) {
+      setSlugError("O slug não pode ter mais de 64 caracteres.");
+    } else {
+      setSlugError(null);
+    }
+    return sanitizedSlug.slice(0, 64);
+  };
 
   const normalizeUrl = (url: string) => {
     const sanitizedUrl = sanitizeInput(url);
-
     const cleanedUrl = sanitizedUrl.replace(/\s+/g, "");
 
-      const urlPattern = /^(https?:\/\/)?([\w.-]+)\.([a-z]{2,6})(\/\S*)?$/i;
+    const urlPattern = /^(https?:\/\/)?([\w.-]+)\.([a-z]{2,6})(\/\S*)?$/i;
     if (!urlPattern.test(cleanedUrl)) {
       return "";
     }
@@ -59,13 +65,12 @@ export default function Home() {
       return;
     }
 
-    if (sanitizedSlug) {
+    if (sanitizedSlug && !slugError) {
       const slugExists = await checkSlugExists(sanitizedSlug);
       if (slugExists) {
         setSlugError("Este slug já está em uso. Escolha outro.");
         return;
       }
-      setSlugError(null);
     }
 
     try {
@@ -112,13 +117,13 @@ export default function Home() {
             <div>
               <input
                 type="text"
-                placeholder="Slug (opcional, máx. 5 caracteres)"
+                placeholder="Slug (opcional, máx. 64 caracteres)"
                 value={slug}
                 onChange={(e) => setSlug(sanitizeSlug(e.target.value))}
-                maxLength={5}
                 className={`border border-gray-600 p-3 rounded-lg w-full text-black ${
                   slugError ? "border-red-500" : ""
                 }`}
+                maxLength={64}
               />
               {slugError && <p className="text-red-500 text-sm mt-1">{slugError}</p>}
             </div>
@@ -126,6 +131,7 @@ export default function Home() {
             <button
               type="submit"
               className="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-lg font-semibold transition duration-200 uppercase"
+              disabled={slug.length < 3 || slugError !== null}
             >
               Gerar link
             </button>

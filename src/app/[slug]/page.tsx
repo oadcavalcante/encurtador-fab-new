@@ -24,5 +24,10 @@ export default async function RedirectPage({ params }: PageProps) {
     notFound();
   }
 
+  await prisma.uRL.update({
+    where: { short: slug },
+    data: { clicks: url.clicks + 1 },
+  });
+
   redirect(url.original);
 }

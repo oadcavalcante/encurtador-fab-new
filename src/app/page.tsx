@@ -20,7 +20,7 @@ export default function Home() {
   const sanitizeSlug = (slug: string) => {
     const sanitizedSlug = slug.replace(/[^a-zA-Z0-9-_]/g, "").trim();
 
-    if (sanitizedSlug.length < 3) {
+    if (sanitizedSlug.length < 3 && sanitizedSlug.length > 0) {
       setSlugError("O slug precisa ter pelo menos 3 caracteres.");
     } else if (sanitizedSlug.length > 64) {
       setSlugError("O slug não pode ter mais de 64 caracteres.");
@@ -28,6 +28,19 @@ export default function Home() {
       setSlugError(null);
     }
     return sanitizedSlug.slice(0, 64);
+  };
+
+  const generateRandomSlug = async () => {
+    const characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    let randomSlug = "";
+    let exists = true;
+
+    while (exists) {
+      randomSlug = Array.from({ length: 5 }, () => characters[Math.floor(Math.random() * characters.length)]).join("");
+      exists = await checkSlugExists(randomSlug);
+    }
+
+    return randomSlug;
   };
 
   const normalizeUrl = (url: string) => {
@@ -58,14 +71,16 @@ export default function Home() {
     e.preventDefault();
 
     const normalizedUrl = normalizeUrl(original);
-    const sanitizedSlug = sanitizeSlug(slug);
+    let sanitizedSlug = slug.trim() ? sanitizeSlug(slug) : "";
 
     if (!normalizedUrl) {
       alert("URL inválida!");
       return;
     }
 
-    if (sanitizedSlug && !slugError) {
+    if (!sanitizedSlug || slugError) {
+      sanitizedSlug = await generateRandomSlug();
+    } else {
       const slugExists = await checkSlugExists(sanitizedSlug);
       if (slugExists) {
         setSlugError("Este slug já está em uso. Escolha outro.");
@@ -109,15 +124,14 @@ export default function Home() {
               type="text"
               placeholder="Digite a URL"
               value={original}
-              onChange={(e) => setOriginal(e.target.value.trim())}
+              onChange={(e) => setOriginal(e.target.value)}
               className="border border-gray-600 p-3 rounded-lg w-full text-black"
               required
             />
-
             <div>
               <input
                 type="text"
-                placeholder="Slug (opcional, máx. 64 caracteres)"
+                placeholder="Slug (opcional)"
                 value={slug}
                 onChange={(e) => setSlug(sanitizeSlug(e.target.value))}
                 className={`border border-gray-600 p-3 rounded-lg w-full text-black ${
@@ -127,24 +141,20 @@ export default function Home() {
               />
               {slugError && <p className="text-red-500 text-sm mt-1">{slugError}</p>}
             </div>
-
             <button
               type="submit"
               className="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-lg font-semibold transition duration-200 uppercase"
-              disabled={slug.length < 3 || slugError !== null}
+              disabled={(slug.length < 3 && slug !== "") || slugError !== null}
             >
               Gerar link
             </button>
           </form>
-
           {shortUrl && (
             <div className="mt-6 p-4 bg-gray-800 rounded-lg shadow-md flex items-center justify-between w-full">
               <p className="text-gray-300 font-semibold">Resultado:</p>
-
               <span className="text-green-400 font-medium bg-gray-900 px-3 py-1 rounded-md cursor-pointer">
                 <a onClick={handleCopy}>{copied ? "Copiado!" : shortUrl}</a>
               </span>
-
               <button onClick={handleCopy} className="ml-3 text-gray-400 hover:text-green-400 transition">
                 {copied ? <ClipboardCheck size={20} /> : <Clipboard size={20} />}
               </button>
@@ -152,7 +162,6 @@ export default function Home() {
           )}
         </div>
       </main>
-
       <section className="w-full max-w-3xl p-6 text-white mx-auto mt-2 pb-32">
         {["Descrição", "Como usar?", "Pra que serve?", "Por que usar?"].map((title, index) => (
           <Accordion key={index} className="w-full">
@@ -163,19 +172,16 @@ export default function Home() {
               </span>
             </AccordionSummary>
             <AccordionDetails>
-              {index === 0 &&
-                "O encurtador é uma ferramenta para reduzir URLs e gerar links curtos. Com ele, é possível criar um link encurtado fácil de compartilhar."}
+              {index === 0 && "O encurtador reduz URLs e gera links curtos."}
               {index === 1 &&
                 "1. Insira a URL. 2. Escolha um slug (opcional). 3. Clique em 'Gerar link'. 4. Copie e compartilhe."}
-              {index === 2 &&
-                "Em muitas situações, os endereços URL das páginas podem se tornar bastante longos e complicados. Isso pode representar um desafio ao compartilhar esses links, seja em sites, e-mails ou em outras formas de comunicação online. Para resolver essa questão, entra em cena o encurtador de URL. Essa ferramenta é projetada para simplificar endereços URL extensos, reduzindo-os a uma versão muito mais curta e fácil de compartilhar."}
-              {index === 3 &&
-                "Fácil e intuitivo. O domínio é fácil de memorizar e usar, tornando seus links encurtados mais amigáveis para compartilhar."}
+              {index === 2 && "Encurta links para facilitar compartilhamento."}
+              {index === 3 && "Links curtos são mais fáceis de lembrar e compartilhar."}
             </AccordionDetails>
           </Accordion>
         ))}
       </section>
-
+      ;
       <Footer />
     </>
   );

@@ -47,7 +47,7 @@ export default function Home() {
     const sanitizedUrl = sanitizeInput(url);
     const cleanedUrl = sanitizedUrl.replace(/\s+/g, "");
 
-    const urlPattern = /^(https?:\/\/)?([\w.-]+)\.([a-z]{2,6})(\/\S*)?$/i;
+    const urlPattern = /^(https?:\/\/)?([\w.-]+)(:\d+)?(\/\S*)?$/i;
     if (!urlPattern.test(cleanedUrl)) {
       return "";
     }

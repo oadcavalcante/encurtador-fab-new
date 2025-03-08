@@ -13,6 +13,7 @@ export default function Header() {
   const toCamelCase = (str: string) => str.toLowerCase().replace(/\b\w/g, (char) => char.toUpperCase());
 
   const userName = session?.user?.name ? toCamelCase(session.user.name) : "Convidado";
+  const postoGrad = session?.user?.postoGrad ?? "";
 
   return (
     <header className="bg-transparent shadow text-white py-6">
@@ -29,7 +30,9 @@ export default function Header() {
           <span className="text-lg md:text-xl text-gray-300 mb-2 block">
             Centro de Computação da Aeronáutica de Brasília
           </span>
-          <p className="text-gray-200 mt-2">Bem-vindo(a), {userName}</p>
+          <p className="text-gray-200 mt-2">
+            Bem-vindo(a), {postoGrad} {userName}
+          </p>
         </div>
         <div className="mt-3 md:mt-0 flex gap-4">
           <Link

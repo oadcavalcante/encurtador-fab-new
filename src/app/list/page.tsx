@@ -20,6 +20,7 @@ interface UrlItem {
   id: string;
   original: string;
   short: string;
+  clicks: number;
   createdAt: Date | string;
   userId?: string;
   [key: string]: any;
@@ -53,20 +54,20 @@ export default function ListPage() {
     { field: "original", headerName: "URL Original", width: 400 },
     {
       field: "short",
-      headerName: "Encurtada",
+      headerName: "URL Encurtada",
       width: 250,
       renderCell: (params) => {
         const domain = process.env.NEXT_PUBLIC_BASE_URL;
         const fullUrl = `${domain}/${params.value}`;
 
         return (
-          <a href={fullUrl} target="_blank" rel="noopener noreferrer" style={{ color: "#1976d2", fontWeight: "bold" }}>
+          <a href={fullUrl} rel="noopener noreferrer" style={{ color: "#1976d2", fontWeight: "bold" }}>
             {fullUrl}
           </a>
         );
       },
     },
-
+    { field: "clicks", headerName: "Cliques", width: 80 },
     {
       field: "createdAt",
       headerName: "Criado em",

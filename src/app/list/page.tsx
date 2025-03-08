@@ -49,11 +49,24 @@ export default function ListPage() {
   const handleCloseSnackbar = () => {
     setSnackbar({ ...snackbar, open: false });
   };
-
   const columns: GridColDef[] = [
-    { field: "id", headerName: "ID", width: 250 },
-    { field: "original", headerName: "Original", width: 400 },
-    { field: "short", headerName: "Encurtado", width: 200 },
+    { field: "original", headerName: "URL Original", width: 400 },
+    {
+      field: "short",
+      headerName: "Encurtada",
+      width: 250,
+      renderCell: (params) => {
+        const domain = process.env.NEXT_PUBLIC_BASE_URL;
+        const fullUrl = `${domain}/${params.value}`;
+
+        return (
+          <a href={fullUrl} target="_blank" rel="noopener noreferrer" style={{ color: "#1976d2", fontWeight: "bold" }}>
+            {fullUrl}
+          </a>
+        );
+      },
+    },
+
     {
       field: "createdAt",
       headerName: "Criado em",
